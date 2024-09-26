@@ -10,7 +10,7 @@ export default function App() {
     return (
         <NavigationContainer>
             <Stack.Navigator initialRouteName="FirstInstallLoginScreen">
-                <Stack.Screen name = "Login" component={FirstInstallLoginScreen} />
+                <Stack.Screen options = {{headerShown: false}}name = "Login" component={FirstInstallLoginScreen} />
                 {/* Add other screens here, e.g., Home screen */}
                 {/* <Stack.Screen name="Home" component={HomeScreen} /> */}
             </Stack.Navigator>

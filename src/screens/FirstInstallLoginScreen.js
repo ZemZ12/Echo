@@ -1,7 +1,8 @@
 import React, { useState } from 'react'; // Import useState here
-import { View, TextInput, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { View, TextInput, TouchableOpacity, Text, StyleSheet ,Image,ImageBackground ,StatusBar} from 'react-native';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../services/firebase'; // Import the Firebase auth instance
+import styles from '../styles/firstloginscreenstyles';
 
 const FirstInstallLoginScreen = ({ navigation }) => { // Accept navigation prop
     const [email, setEmail] = useState('');
@@ -26,73 +27,50 @@ const FirstInstallLoginScreen = ({ navigation }) => { // Accept navigation prop
     };
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.title}>Welcome to Echo!</Text>
-            <TextInput
-                style={styles.input}
-                placeholder="Email"
-                value={email}
-                onChangeText={setEmail}
-                keyboardType="email-address"
-                autoCapitalize="none"
-            />
-            <TextInput
-                style={styles.input}
-                placeholder="Password"
-                value={password}
-                onChangeText={setPassword}
-                secureTextEntry
-            />
-            {error ? <Text style={styles.error}>{error}</Text> : null}
-            <TouchableOpacity style={styles.button} onPress={handleLogin} >
-                <Text style={styles.buttonText}>Login</Text>
-            </TouchableOpacity>
-            <TouchableOpacity title= "Register" onPress={handleRegister} />
-        </View>
+        <ImageBackground
+            source={require('../assets/BackgroundScreenLogin.jpg')}
+            resizeMode="cover"
+            style={styles.backgroundImage}
+        >
+            <View style={styles.overlay}>
+                <Text style={styles.title}>Welcome to Echo!</Text>
+                <Text>Chat, connect, or just hang out. Tap below to get started!</Text>
+                 {/* Input Container */}
+                    <View style={styles.inputContainer}>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Email"
+                            value={email}
+                            onChangeText={setEmail}
+                            keyboardType="email-address"
+                            autoCapitalize="none"
+                        />
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Password"
+                            value={password}
+                            onChangeText={setPassword}
+                            secureTextEntry
+                        />
+                    </View>
+                 {/* Input Container */}
+                {error ? <Text style={styles.error}>{error}</Text> : null}
+                {/* Button Container */}
+                    <View style={styles.buttonContainer}>
+                        <TouchableOpacity style={styles.button} onPress={handleLogin}>
+                            <Text style={styles.buttonText}>Login</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity title="Register" style={styles.buttonRegister} onPress={handleRegister}>
+                            <Text style={styles.buttonText}>Register</Text>
+                        </TouchableOpacity>
+                    </View>
+                {/* Button Container */}
+            </View>
+        </ImageBackground>
     );
 };
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        padding: 20,
-    },
-    title: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginBottom: 20,
-        textAlign: 'center',
-    },
-    input: {
-        height: 50,
-        borderColor: '#ccc',
-        borderWidth: 1,
-        borderRadius: 5,
-        marginBottom: 15,
-        paddingLeft: 10,
-    },
-    error: {
-        color: 'red',
-        marginBottom: 10,
-    },
-    button: {
-        backgroundColor: '#3503fc',
-        padding: 15,
-        borderRadius: 5,
-        marginTop: 15,
-        width: '100%',
-        textAlign: 'center',
-        color: 'white',
-        alignItems: 'center',
-    },
-    buttonText: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        
-    },
- 
-});
 
 export default FirstInstallLoginScreen;
 
