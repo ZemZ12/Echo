@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
 import FirstInstallLoginScreen from './src/screens/FirstInstallLoginScreen'; // Import your screen
+import RegisterScreen from './src/screens/RegisterScreen';
 import { Text, View } from 'react-native';
 import * as Font from 'expo-font';
 
@@ -26,7 +27,8 @@ export default function App() {
             <Stack.Navigator initialRouteName="FirstInstallLoginScreen">
                 <Stack.Screen options = {{headerShown: false}}name = "Login" component={FirstInstallLoginScreen} />
                 {/* Add other screens here, e.g., Home screen */}
-                {/* <Stack.Screen name="Home" component={HomeScreen} /> */}
+                 <Stack.Screen options={{headerShown: false}} name = "Register" component={RegisterScreen} />
+
             </Stack.Navigator>
             <StatusBar style="auto" />
         </NavigationContainer>
