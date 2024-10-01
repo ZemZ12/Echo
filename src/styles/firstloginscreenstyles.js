@@ -43,6 +43,7 @@
     inputContainer: {
         width: '100%',
         marginBottom: 15,
+        
     },
     input: {
         height: 50,
@@ -51,6 +52,7 @@
         paddingHorizontal: 15,
         marginBottom: 15,
         color: 'white',
+        fontFamily: 'GasoekOne',
     },
     forgotPassword: {
         fontSize: 14,

@@ -7,6 +7,65 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-})
+    dofContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between', // Ensures the inputs are spaced evenly
+        alignItems: 'center',
+        marginBottom: 20, // Increased bottom margin for overall spacing
+        padding: 10,
+    },
+    dof: {
+        backgroundColor: 'rgba(255, 255, 255, 0.3)',
+        borderRadius: 15,
+        paddingHorizontal: 15, // Adjusted padding
+        height: 50, // Set height for consistency
+        width: '30%', // Set a width for consistent spacing
+        fontSize: 16, // Increased font size for readability
+        fontFamily: 'GasoekOne',
+        marginHorizontal: 5, // Added horizontal margin for spacing between dof inputs
+        color: 'white',
+    },
+    container: {
+        flex: 1,
+    },
+    header: {
+        height: 90,
+        marginTop: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    headerText: {
+        color: 'white',
+        fontSize: 24,
+        fontFamily: 'GasoekOne',
+    },
+    inputContainer: {
+        flex: 1,
+        justifyContent: 'space-evenly', // You can keep this or adjust it
+        width: '100%',
+    },
+    input: {
+        height: 50,
+        backgroundColor: 'rgba(255, 255, 255, 0.3)',
+        borderRadius: 25,
+        paddingHorizontal: 15,
+        marginBottom: 20, // Increased bottom margin for more space between inputs
+        color: 'white',
+        fontFamily: 'GasoekOne',
+    },
+    buttonContainer: {
+        padding: 20,
+    },
+    button: {
+        backgroundColor: '#00073D',
+        paddingVertical: 15,
+        borderRadius: 20,
+        alignItems: 'center',
+    },
+    buttonText: {
+        color: '#fff',
+        fontSize: 18,
+    },
+});
 
 export default styles;

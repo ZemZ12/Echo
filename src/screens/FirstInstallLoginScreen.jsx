@@ -42,6 +42,7 @@ const FirstInstallLoginScreen = ({ navigation }) => {
                     <TextInput
                         style={styles.input}
                         placeholder="Email"
+                        placeholderTextColor="rgba(0, 0, 0, 0.3)"
                         value={email}
                         onChangeText={setEmail}
                         keyboardType="email-address"
@@ -50,6 +51,7 @@ const FirstInstallLoginScreen = ({ navigation }) => {
                     <TextInput
                         style={styles.input}
                         placeholder="Password"
+                        placeholderTextColor="rgba(0, 0, 0, 0.3)"
                         value={password}
                         onChangeText={setPassword}
                         secureTextEntry
