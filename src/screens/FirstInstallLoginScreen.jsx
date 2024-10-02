@@ -23,7 +23,7 @@ const FirstInstallLoginScreen = ({ navigation }) => {
     };
 
     const handleForgotPassword = () => {
-        navigation.navigate('forgotPassword');
+        navigation.navigate('ForgotPassword');
     }
 
     return (

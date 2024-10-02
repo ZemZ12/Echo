@@ -1,9 +1,9 @@
-import {useState, useEffect} from 'react';
-import { View, TextInput, TouchableOpacity, Text, StyleSheet, Image, ImageBackground, SafeAreaView,ScrollView,KeyboardAvoidingView,Platform, Alert} from 'react-native';
+import {useState} from 'react';
+import { View, TextInput, TouchableOpacity, Text, Image, ImageBackground, SafeAreaView,ScrollView,KeyboardAvoidingView,Platform} from 'react-native';
 import styles from '../styles/registerscreenstyles';
-import {getAuth ,createUserWithEmailAndPassword, onAuthStateChanged,sendEmailVerification} from "firebase/auth";
-import { app,auth ,db } from '../services/firebase';
-import { collection, addDoc ,setDoc,doc ,getDocs} from "firebase/firestore"; 
+import {createUserWithEmailAndPassword,sendEmailVerification} from "firebase/auth";
+import {auth ,db } from '../services/firebase';
+import { collection ,setDoc,doc ,getDocs} from "firebase/firestore"; 
 import LoadingAnimation  from '../components/loading';
 
  function RegisterScreen() {
@@ -179,6 +179,7 @@ import LoadingAnimation  from '../components/loading';
   return (
     
    <ImageBackground source={require('../assets/BackgroundScreenLogin.jpg')} style={styles.backgroundImage} resizeMode="cover">
+    
     <SafeAreaView style={styles.container}>
     <KeyboardAvoidingView
           style={{ flex: 1 }}

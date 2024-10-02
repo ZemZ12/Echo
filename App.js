@@ -6,6 +6,7 @@ import FirstInstallLoginScreen from './src/screens/FirstInstallLoginScreen'; // 
 import RegisterScreen from './src/screens/RegisterScreen';
 import { Text, View } from 'react-native';
 import * as Font from 'expo-font';
+import ForgotPassword from './src/screens/ForgotPassword';
 
 const Stack = createNativeStackNavigator();
 
@@ -26,6 +27,7 @@ export default function App() {
         <NavigationContainer>
             <Stack.Navigator initialRouteName="FirstInstallLoginScreen">
                 <Stack.Screen options = {{headerShown: false}}name = "Login" component={FirstInstallLoginScreen} />
+                 <Stack.Screen options={{headerShown: false}} name = "ForgotPassword" component={ForgotPassword} />
                 {/* Add other screens here, e.g., Home screen */}
                  <Stack.Screen options={{headerShown: false}} name = "Register" component={RegisterScreen} />
 
