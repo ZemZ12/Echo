@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
+        marginTop: 80,
     },
     header: {
         height: 90,
@@ -40,11 +41,11 @@ const styles = StyleSheet.create({
         fontFamily: 'GasoekOne',
     },
     inputContainer: {
-        flex: 1,
         justifyContent: 'space-evenly', // You can keep this or adjust it
         width: '100%',
     },
     input: {
+        flex: 1,
         height: 50,
         backgroundColor: 'rgba(255, 255, 255, 0.3)',
         borderRadius: 25,
@@ -66,6 +67,41 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontSize: 18,
     },
+    error:{
+        color:'red',
+        fontSize: 13,
+        fontFamily: 'GasoekOne',
+        fontWeight: 'bold',
+        textAlign: 'center',
+        paddingLeft: 10,
+        
+    },
+    success:{
+        color:'green',
+        fontSize: 13,
+        fontFamily: 'GasoekOne',
+        fontWeight: 'bold',
+        textAlign: 'center',
+        paddingLeft: 10,
+    },
+    icon: {
+       height: 30,
+       width: 30,
+       tintColor: 'rgba(255, 255, 255, 0.3)',
+    },
+
+    iconWrapper:{
+        position: 'absolute',
+        right: 15,  
+        padding: 10,
+    },
+
+    inputWrapper: {
+    flexDirection: 'row',        
+
+   
+    }
+    
 });
 
 export default styles;

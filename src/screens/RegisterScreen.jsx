@@ -6,51 +6,151 @@ import { app,auth ,db } from '../services/firebase';
 import { collection, addDoc ,setDoc,doc ,getDocs} from "firebase/firestore"; 
 
 
-
  function RegisterScreen() {
+  // useStates Inputs
   const [email, setEmail] = useState();
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
+  // useStates Inputs
+
+  // useStates DoF
   const [month,setMonth] = useState();
   const [day, setDay] = useState();
   const [year, setYear] = useState();
+  // useStates DoF
 
-  const handleEmail = text => {
-    console.log("email : " + text);
+  
+  const [showPassword, setShowPassword] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [hideErrorMessage, setHideErrorMessage] = useState(false)
+  const [successMessage, setSuccessMessage] = useState('');
+
+  const visiblePassword = () => {
+    setShowPassword(!showPassword);
+  }
+
+  const handleEmail = (text) => {
     setEmail(text);
   }
-  const handleUsername = text => {
-    console.log("username : " + text);
+  const handleUsername = (text) => {
+    
     setUsername(text);
   }
-
-  const handlePassword = text => {
-    console.log("password : " + text);
+  const handlePassword = (text) => {
     setPassword(text);
   }
-
-  const handleConfirmPassword = text =>{
-    console.log("ConfirmedPass : " + text);
+  
+  const handleConfirmPassword = (text) => {
     setConfirmPassword(text);
   }
 
-  const handleMonth = text =>{
-    console.log("month : " + text);
-    setMonth(text);
+  const resetInputs = () => {
+    setEmail('');
+    setUsername('');
+    setMonth('');
+    setDay('');
+    setYear('');
+
   }
-  const handleDay = text =>{
-    console.log("day : " + text);
-    setDay(text);
+ 
+  const resetPasswordInputs = () => {
+    setPassword('');
+    setConfirmPassword('');
   }
-  const handleYear = text =>{
-    console.log("year : " + text);
-    setYear(text);
+
+
+  const handleYear = (numericYear) => {
+    const yearValue = parseInt(numericYear);
+    console.log(yearValue);
+    
+      if(yearValue <= 2030  && yearValue >= 1) {
+        setYear(numericYear);
+     }else{
+       setYear('');
+       setErrorMessage(" try again");
+       setTimeout(() =>{
+         setErrorMessage('');
+         setHideErrorMessage(true);
+       }, 3000);
+     }
+    
   }
-   
+    
+  const handleMonth = (numericMonth) => {
+    const monthValue = parseInt(numericMonth);
+    if (monthValue <= 12 && monthValue >= 1) {
+       setMonth(numericMonth);
+    }else{
+      setMonth('');
+      setErrorMessage("larger than 12, try again");
+      setTimeout(() =>{
+        setErrorMessage('');
+        setHideErrorMessage(true);
+      }, 3000);
+    }
+  };
+
+  const handleDay = (numericDay) =>{
+    const dayValue = parseInt(numericDay);
+    if(dayValue <= 31 && dayValue >= 1){
+       setDay(dayValue);
+    }else {
+      setDay('');
+      setErrorMessage("larger than 31, try again");
+      setTimeout(() =>{
+        setErrorMessage('');
+        setHideErrorMessage(true);
+      }, 3000);
+    }
+  } 
+
+  const handleError = (error) => {
+    let message;
+  
+    // Check for specific error codes or messages
+    if (error.code === 'auth/invalid-email') {
+      message = "Invalid email format. Please enter a valid email.";
+    } else if (error.code === 'auth/email-already-in-use') {
+      message = "This email is already in use. Please use a different email.";
+    } else if (error.code === 'auth/weak-password') {
+      message = "Password is too weak. Please choose a stronger password.";
+    } else {
+      message = "An unexpected error occurred. Please try again.";
+    }
+  
+    setErrorMessage(message);
+    setHideErrorMessage(false)
+
+    setTimeout(() => {
+      setHideErrorMessage(true);
+      setErrorMessage('');
+    }, 4000);
+    
+  };
+
   const handleRegister = async () => {
-    if(password != confirmPassword){
-      Alert.alert("Error","Password does not match!");
+
+    if (!email || !username || !password || !confirmPassword || !month || !day || !year) {
+      setErrorMessage("Please fill in all fields.");
+      setHideErrorMessage(false)
+      setTimeout(() => {
+        setHideErrorMessage(true);
+        setErrorMessage('');
+      }, 4000);
+      resetInputs();
+      return;
+      
+    }
+    if(password !== confirmPassword){
+      setErrorMessage("Password does not match!");
+      setHideErrorMessage(false)
+      setTimeout(() => {
+      setHideErrorMessage(true);
+        setHideErrorMessage('');
+      }, 4000);
+     
+      resetPasswordInputs();
       return;
     }
 
@@ -67,24 +167,24 @@ import { collection, addDoc ,setDoc,doc ,getDocs} from "firebase/firestore";
       });
 
       const snapshot = await getDocs(collection(db, 'users'));
-    snapshot.forEach((doc) => {
+      snapshot.forEach((doc) => {
       console.log(doc.id, '=>', doc.data());
     });
       console.log("User data stored successfully!");
-      
+      // Store user data in Firestore
+
       // Send email verification
       await sendEmailVerification(user);
-      Alert.alert("Success", "Registration Successful!, Verification email sent!");
+      setSuccessMessage("Registration Successful!, Verification email sent!")
+      resetPasswordInputs();
+      resetInputs();
     } catch (error) {
-      console.error("Error creating user:", error);
-      Alert.alert("Error", error.message);
+      handleError(error);
+      resetInputs();
     }
-    
+    // Send email verification
 
-  }
-
-  
-  
+  }  
   return (
    <ImageBackground source={require('../assets/BackgroundScreenLogin.jpg')} style={styles.backgroundImage} resizeMode="cover">
     
@@ -105,6 +205,7 @@ import { collection, addDoc ,setDoc,doc ,getDocs} from "firebase/firestore";
           placeholder="Email"
           placeholderTextColor="rgba(0, 0, 0, 0.3)"
           onChangeText={handleEmail}
+          value={email}
         />
         <TextInput
           style={styles.input}
@@ -112,21 +213,37 @@ import { collection, addDoc ,setDoc,doc ,getDocs} from "firebase/firestore";
           placeholderTextColor="rgba(0, 0, 0, 0.3)"
           autoCapitalize="none"
           onChangeText={handleUsername}
+          value={username}
         />
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          placeholderTextColor="rgba(0, 0, 0, 0.3)"
-          secureTextEntry
-          onChangeText={handlePassword}
-        />
+        <View style={styles.inputWrapper}>
+          <TextInput
+            style={styles.input}
+            placeholder="Password"
+            placeholderTextColor="rgba(0, 0, 0, 0.3)"
+            secureTextEntry = {!showPassword}
+            onChangeText={handlePassword}
+            value={password}
+          />
+          <TouchableOpacity onPress={visiblePassword} style={styles.iconWrapper}>
+                  {showPassword ? (
+                  <Image source={require('../assets/hide.png')} style={styles.icon} />
+                ) : (
+                  <Image source={require('../assets/show.png')} style={styles.icon} />
+                )}
+          </TouchableOpacity>
+        </View>
         <TextInput
           style={styles.input}
           placeholder="Confirm Password"
           placeholderTextColor="rgba(0, 0, 0, 0.3)"
-          secureTextEntry
+          secureTextEntry = {!showPassword}
           onChangeText={handleConfirmPassword}
+          value={confirmPassword}
         />
+        {/* Alert Mesage*/}
+          {successMessage ? (<Text style={styles.success}>{successMessage}</Text>) : (<Text style={styles.error}>{errorMessage}</Text>) }
+        {/* Alert Mesage*/}
+
         {/* Date of Brith */}
         <View style={styles.dofContainer}>
           <TextInput 
@@ -134,12 +251,18 @@ import { collection, addDoc ,setDoc,doc ,getDocs} from "firebase/firestore";
           placeholder='Month'
           placeholderTextColor="rgba(0, 0, 0, 0.3)"
           onChangeText={handleMonth}
+          keyboardType="numeric"
+          maxLength={2}
+          value={month}
           />
           <TextInput 
           style={styles.dof}
           placeholder='Day'
           placeholderTextColor="rgba(0, 0, 0, 0.3)"
           onChangeText={handleDay}
+          keyboardType="numeric"
+          maxLength={2}
+          value={day}
           />
          
           <TextInput 
@@ -147,6 +270,9 @@ import { collection, addDoc ,setDoc,doc ,getDocs} from "firebase/firestore";
           placeholder='Year'
           placeholderTextColor="rgba(0, 0, 0, 0.3)"
           onChangeText={handleYear}
+          keyboardType="numeric"
+          maxLength={4}
+          value={year}
           />
         </View>
         {/* Date of Brith */}
