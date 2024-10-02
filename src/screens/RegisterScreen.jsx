@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import {useState, useEffect} from 'react';
 import { View, TextInput, TouchableOpacity, Text, StyleSheet, Image, ImageBackground, SafeAreaView,ScrollView,KeyboardAvoidingView,Platform, Alert} from 'react-native';
 import styles from '../styles/registerscreenstyles';
 import {getAuth ,createUserWithEmailAndPassword, onAuthStateChanged,sendEmailVerification} from "firebase/auth";
 import { app,auth ,db } from '../services/firebase';
 import { collection, addDoc ,setDoc,doc ,getDocs} from "firebase/firestore"; 
-
+import LoadingAnimation  from '../components/loading';
 
  function RegisterScreen() {
   // useStates Inputs
@@ -20,45 +20,33 @@ import { collection, addDoc ,setDoc,doc ,getDocs} from "firebase/firestore";
   const [year, setYear] = useState();
   // useStates DoF
 
-  
+  // useStates Messages
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [hideErrorMessage, setHideErrorMessage] = useState(false)
   const [successMessage, setSuccessMessage] = useState('');
+  // useStates Messages
+  const [loading, setLoading] = useState(false);
 
-  const visiblePassword = () => {
-    setShowPassword(!showPassword);
-  }
-
-  const handleEmail = (text) => {
-    setEmail(text);
-  }
-  const handleUsername = (text) => {
-    
-    setUsername(text);
-  }
-  const handlePassword = (text) => {
-    setPassword(text);
-  }
+  //Functions 
+  const visiblePassword = () => setShowPassword(!showPassword);
+  const handleEmail = (text) => setEmail(text);
+  const handleUsername = (text) => setUsername(text);
+  const handlePassword = (text) => setPassword(text);
+  const handleConfirmPassword = (text) => setConfirmPassword(text);
   
-  const handleConfirmPassword = (text) => {
-    setConfirmPassword(text);
-  }
-
   const resetInputs = () => {
     setEmail('');
     setUsername('');
     setMonth('');
     setDay('');
     setYear('');
-
   }
  
   const resetPasswordInputs = () => {
     setPassword('');
     setConfirmPassword('');
   }
-
 
   const handleYear = (numericYear) => {
     const yearValue = parseInt(numericYear);
@@ -76,7 +64,7 @@ import { collection, addDoc ,setDoc,doc ,getDocs} from "firebase/firestore";
      }
     
   }
-    
+
   const handleMonth = (numericMonth) => {
     const monthValue = parseInt(numericMonth);
     if (monthValue <= 12 && monthValue >= 1) {
@@ -107,7 +95,6 @@ import { collection, addDoc ,setDoc,doc ,getDocs} from "firebase/firestore";
 
   const handleError = (error) => {
     let message;
-  
     // Check for specific error codes or messages
     if (error.code === 'auth/invalid-email') {
       message = "Invalid email format. Please enter a valid email.";
@@ -118,7 +105,7 @@ import { collection, addDoc ,setDoc,doc ,getDocs} from "firebase/firestore";
     } else {
       message = "An unexpected error occurred. Please try again.";
     }
-  
+
     setErrorMessage(message);
     setHideErrorMessage(false)
 
@@ -140,7 +127,6 @@ import { collection, addDoc ,setDoc,doc ,getDocs} from "firebase/firestore";
       }, 4000);
       resetInputs();
       return;
-      
     }
     if(password !== confirmPassword){
       setErrorMessage("Password does not match!");
@@ -153,8 +139,9 @@ import { collection, addDoc ,setDoc,doc ,getDocs} from "firebase/firestore";
       resetPasswordInputs();
       return;
     }
-
-    try {
+    setLoading(true);
+    setTimeout(async () => {try {
+      // Create a new user with email and password
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
       console.log("User created:", user);
@@ -178,16 +165,20 @@ import { collection, addDoc ,setDoc,doc ,getDocs} from "firebase/firestore";
       setSuccessMessage("Registration Successful!, Verification email sent!")
       resetPasswordInputs();
       resetInputs();
+      setLoading(false);
+      // Send email verification
     } catch (error) {
       handleError(error);
       resetInputs();
+      setLoading(false);
     }
-    // Send email verification
+  })
+    
 
   }  
   return (
-   <ImageBackground source={require('../assets/BackgroundScreenLogin.jpg')} style={styles.backgroundImage} resizeMode="cover">
     
+   <ImageBackground source={require('../assets/BackgroundScreenLogin.jpg')} style={styles.backgroundImage} resizeMode="cover">
     <SafeAreaView style={styles.container}>
     <KeyboardAvoidingView
           style={{ flex: 1 }}
@@ -277,12 +268,16 @@ import { collection, addDoc ,setDoc,doc ,getDocs} from "firebase/firestore";
         </View>
         {/* Date of Brith */}
       </View>
-    
+            
+      {loading ? <LoadingAnimation></LoadingAnimation> 
+      : 
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button} onPress={handleRegister}>
           <Text style={styles.buttonText} >Register</Text>
         </TouchableOpacity>
-      </View>
+      </View>}
+      
+    
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
