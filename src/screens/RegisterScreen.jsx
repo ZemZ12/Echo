@@ -140,17 +140,18 @@ import LoadingAnimation  from '../components/loading';
       return;
     }
     setLoading(true);
-    setTimeout(async () => {try {
+    setTimeout(async () => {
+      try {
       // Create a new user with email and password
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-      console.log("User created:", user);
-
+      
       // Store user data in Firestore
       await setDoc(doc(db, 'users', user.uid), {
         username: username,
         dob: `${month}/${day}/${year}`,
         email: user.email,
+        password: `${password}`
       });
 
       const snapshot = await getDocs(collection(db, 'users'));
@@ -277,7 +278,6 @@ import LoadingAnimation  from '../components/loading';
           <Text style={styles.buttonText} >Register</Text>
         </TouchableOpacity>
       </View>}
-      
     
         </ScrollView>
       </KeyboardAvoidingView>
