@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, TouchableOpacity, Text, StyleSheet, Image, ImageBackground } from 'react-native';
+import { View, TextInput, TouchableOpacity, Text, Image, ImageBackground } from 'react-native';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import styles from '../styles/firstloginscreenstyles';
 
@@ -8,15 +8,26 @@ const FirstInstallLoginScreen = ({ navigation }) => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
 
+
+
     const handleLogin = async () => {
         const authInstance = getAuth();
+
+        if (!email || !password) {
+            setError("Please enter email and password.");
+            setEmail('');
+            setPassword('');
+            return;                          
+        }
         try {
             await signInWithEmailAndPassword(authInstance, email, password);
-            navigation.navigate('Home');
+            navigation.navigate("Home");  
         } catch (error) {
             setError(error.message);
         }
     };
+
+
 
     const handleRegister = () => {
         navigation.navigate('Register');

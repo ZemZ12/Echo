@@ -49,48 +49,65 @@ import LoadingAnimation  from '../components/loading';
   }
 
   const handleYear = (numericYear) => {
-    const yearValue = parseInt(numericYear);
-    console.log(yearValue);
-    
-      if(yearValue <= 2030  && yearValue >= 1) {
-        setYear(numericYear);
-     }else{
-       setYear('');
-       setErrorMessage(" try again");
-       setTimeout(() =>{
-         setErrorMessage('');
-         setHideErrorMessage(true);
-       }, 3000);
-     }
+    if(/^\d+$/.test(numericYear)) { // Only allow whole numbers
+      const yearValue = parseInt(numericYear);
+      
+      if(yearValue <= 2030 && yearValue >= 1) {
+          setYear(numericYear);
+      } else {
+          setYear('');
+          setErrorMessage("Please enter a valid year (between 1 and 2030).");
+      }
+  } else {
+      setYear(''); // Clear input if a decimal or invalid character is found
+      setErrorMessage("Decimals are not allowed.");
+  }
+
+  setTimeout(() => {
+      setErrorMessage('');
+      setHideErrorMessage(true);
+  }, 3000);
     
   }
 
   const handleMonth = (numericMonth) => {
-    const monthValue = parseInt(numericMonth);
-    if (monthValue <= 12 && monthValue >= 1) {
-       setMonth(numericMonth);
-    }else{
-      setMonth('');
-      setErrorMessage("larger than 12, try again");
-      setTimeout(() =>{
-        setErrorMessage('');
-        setHideErrorMessage(true);
-      }, 3000);
+
+    if(/^\d+$/.test(numericMonth)){
+      const monthValue = parseInt(numericMonth);
+        if (monthValue <= 12 && monthValue >= 1) {
+          setMonth(numericMonth);
+      } else{
+        setMonth('');
+        setErrorMessage("Please enter a valid month (between 1 and 12).");
+      }
     }
+    else{
+      setMonth('');
+      setErrorMessage("No Decimals, Try again");
+    }
+    setTimeout(() =>{
+      setErrorMessage('');
+      setHideErrorMessage(true);
+    }, 3000);
   };
 
   const handleDay = (numericDay) =>{
-    const dayValue = parseInt(numericDay);
-    if(dayValue <= 31 && dayValue >= 1){
-       setDay(dayValue);
-    }else {
+    if(/^\d+$/.test(numericDay)){
+      const dayValue = parseInt(numericDay);
+      if(dayValue <= 31 && dayValue >= 1){
+         setDay(dayValue);
+      }else {
+        setDay('');
+        setErrorMessage("larger than 31, try again");
+      }
+    } else{
       setDay('');
-      setErrorMessage("larger than 31, try again");
-      setTimeout(() =>{
-        setErrorMessage('');
-        setHideErrorMessage(true);
-      }, 3000);
+      setErrorMessage("No Decimals, Try again");
     }
+    setTimeout(() =>{
+      setErrorMessage('');
+      setHideErrorMessage(true);
+    }, 3000);
   } 
 
   const handleError = (error) => {
@@ -151,7 +168,6 @@ import LoadingAnimation  from '../components/loading';
         username: username,
         dob: `${month}/${day}/${year}`,
         email: user.email,
-        password: `${password}`
       });
 
       const snapshot = await getDocs(collection(db, 'users'));

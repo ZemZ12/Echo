@@ -4,7 +4,7 @@ import styles from '../styles/forgotpasswordscreenstyles';
 import Button from '../components/button';
 import Input from '../components/input';
 import { auth } from '../services/firebase';
-import { sendPasswordResetEmail , confirmPasswordReset } from 'firebase/auth';
+import { sendPasswordResetEmail } from 'firebase/auth';
 import LoadingAnimation  from '../components/loading';
 
 const ForgotPasswordScreen = () => {
@@ -39,6 +39,7 @@ const ForgotPasswordScreen = () => {
             setErrorMessage("Please Enter your email address");
             return;
         }
+       
         setIsLoading(true);
         sendPasswordResetEmail(auth,email)
         .then(() => {
@@ -74,8 +75,6 @@ return(
                     </Input>
                     {isloading ? <LoadingAnimation></LoadingAnimation> :<Button title='Submit' onPress={handleForgotPassword}></Button> }
                     {errorMessage  ? <Text style={styles.errorMessage}>{errorMessage}</Text> : <Text style={styles.successMessage}>{successMessage}</Text>}
-                    
-
                 </View>
             </View>
     </ImageBackground>
