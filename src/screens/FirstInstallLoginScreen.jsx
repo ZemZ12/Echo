@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { View, TextInput, TouchableOpacity, Text, Image, ImageBackground } from 'react-native';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import styles from '../styles/firstloginscreenstyles';
+import { ScrollView  } from 'react-native';
+
 
 const FirstInstallLoginScreen = ({ navigation }) => {
     const [email, setEmail] = useState('');
@@ -54,9 +56,11 @@ const FirstInstallLoginScreen = ({ navigation }) => {
      /* Directing Users to ForogotPassword Page Functionality*/
 
     return (
-        <ImageBackground source={require('../assets/BackgroundScreenLogin.jpg')} style={styles.backgroundImage} resizeMode="cover">
+        
+        <ImageBackground source={require('../assets/Home1Background.jpg')} style={styles.backgroundImage} resizeMode="cover">
+           
+           <ScrollView contentContainerStyle={{ flexGrow: 1 }} bounces={false}>
             <View style={styles.overlay}>
-
                 {/* Logo */}
                 <Image source={require('../assets/alien1.png')} style={styles.logo}></Image>
                 {/* Logo */}
@@ -97,7 +101,7 @@ const FirstInstallLoginScreen = ({ navigation }) => {
                 </TouchableOpacity>
                 {/* Forgot Password Link */}
 
-                {/* Forgot Password Link */}
+                {/*  Buttons */}
                 <View style={styles.buttonContainer}>
                     <TouchableOpacity style={styles.buttonLogin} onPress={handleLogin}>
                         <Text style={styles.buttonText}>Login</Text>
@@ -107,12 +111,13 @@ const FirstInstallLoginScreen = ({ navigation }) => {
                         <Text style={styles.buttonText}>Register</Text>
                     </TouchableOpacity>
                 </View>
-                {/* Forgot Password Link */}
+                {/*  Buttons */}
 
                 {/* Error Text */}
                 {error ? <Text style={styles.error}>{error}</Text> : null}
                 {/* Error Text */}
             </View>
+            </ScrollView>
         </ImageBackground>
     );
 };

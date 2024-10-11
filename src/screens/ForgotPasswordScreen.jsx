@@ -62,7 +62,7 @@ const ForgotPasswordScreen = () => {
     }
 
 return(
-    <ImageBackground source={require('../assets/BackgroundScreenLogin.jpg')} style={styles.backgroundImage} resizeMode="cover">
+    <ImageBackground source={require('../assets/Home1Background.jpg')} style={styles.backgroundImage} resizeMode="cover">
             <View style={styles.textContainer}>
                     <Text style={styles.forgotPassword}>Forgot Your Password?</Text>
                     <Text style={styles.subHeader}>Enter your email So you can reset your password</Text>

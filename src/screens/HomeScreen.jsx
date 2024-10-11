@@ -5,6 +5,7 @@ import styles from '../styles/homescreen';
 import { auth} from '../services/firebase';
 import { signOut } from 'firebase/auth';
 
+
 const HomeScreen = () => {
 
     const handleSignOut = () => {
@@ -18,9 +19,9 @@ const HomeScreen = () => {
       )}
 
     return(
-        <ImageBackground source={require('../assets/BackgroundScreenLogin.jpg')} style={styles.backgroundImage} resizeMode="cover">        
-            <View>
-                <Text>Home Screen</Text>
+        <ImageBackground source={require('../assets/Home1Background.jpg')} style={styles.backgroundImage} resizeMode="cover">        
+            <View >
+                <Text>Echo</Text>
                 <Button title="SignOut" onPress={handleSignOut}></Button>
             </View>
         </ImageBackground>

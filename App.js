@@ -10,14 +10,34 @@ import { onAuthStateChanged} from '@react-native-firebase/auth';
 import { auth } from '../EchoApp/src/services/firebase';
 import ForgotPasswordScreen from './src/screens/ForgotPasswordScreen';
 import HomeScreen from './src/screens/HomeScreen';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
+import { enableScreens } from 'react-native-screens';
+enableScreens();
 
 const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
+
+
+const MainTabs = () => {
+
+  return(
+      <Tab.Navigator  screenOptions={{
+        tabBarStyle: { height: "8%", borderTopWidth: 2, borderColor : "#3326B5",backgroundColor: "#1b1464"},
+        }} // Customize tab bar style
+      >
+        <Tab.Screen  options={{headerShown: false}} name = "Message" component={HomeScreen}></Tab.Screen>
+      </Tab.Navigator>
+  );}
+  
+
+  
 
 export default function App() {
     const [fontsLoaded, setFontsLoaded] = useState(false);
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
-
 
     useEffect(() => {
       const unsubscribe = onAuthStateChanged(auth, (user)=> {
@@ -46,13 +66,12 @@ export default function App() {
     return <Text>Loading...</Text>;
   }
 
- 
-    return (
+
+    return (  
         <NavigationContainer>     
-          
-            <Stack.Navigator initialRouteName={user ? "Home" : "Login"}>
+            <Stack.Navigator screenOptions={{navigationBarColor: '#1b1464'}} initialRouteName={user ? "Home" : "Login"}>
               {user ? ( 
-                <Stack.Screen options={{headerShown: false}} name = "Home" component={HomeScreen}/> 
+                <Stack.Screen  options={{headerShown: false}} name = "Home" component={MainTabs}/> 
               ) : ( 
               <>
                 <Stack.Screen options = {{headerShown: false}} name = "Login" component={FirstInstallLoginScreen} />
@@ -62,7 +81,8 @@ export default function App() {
               )}
             
             </Stack.Navigator>
-            <StatusBar style="auto" />
+            <StatusBar style='light' />
+            
         </NavigationContainer>
     );
 }

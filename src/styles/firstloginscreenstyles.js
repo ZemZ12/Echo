@@ -1,6 +1,7 @@
  import { StyleSheet } from "react-native";
  
  const styles = StyleSheet.create({
+
     backgroundImage: {
         flex: 1,
         justifyContent: 'center',
@@ -16,7 +17,9 @@
         flex: 1,
         width: '100%',
         paddingHorizontal: 20,
+        
     },
+    
     Title_Subtitle:{
         justifyContent: 'center',
         alignItems: 'center',

@@ -4,10 +4,13 @@ import { StyleSheet } from "react-native";
 
 
 const styles = StyleSheet.create({
+    
+
     backgroundImage: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        height: '100%',
     },
 
     textContainer:{
@@ -56,8 +59,6 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         paddingLeft: 10,
     },
-
-    
 
 })
 

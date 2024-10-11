@@ -195,7 +195,7 @@ import LoadingAnimation  from '../components/loading';
   }  
   return (
     
-   <ImageBackground source={require('../assets/BackgroundScreenLogin.jpg')} style={styles.backgroundImage} resizeMode="cover">
+   <ImageBackground source={require('../assets/Home1Background.jpg')} style={styles.backgroundImage} resizeMode="cover">
     
     <SafeAreaView style={styles.container}>
     <KeyboardAvoidingView
