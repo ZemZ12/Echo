@@ -1,12 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, ImageBackground} from 'react-native';
-import Button from '../components/button';
-import styles from '../styles/homescreen';
-import { auth} from '../services/firebase';
+import Button from '../../components/button';
+import styles from '../../styles/homescreen';
+import { auth} from '../../services/firebase';
 import { signOut } from 'firebase/auth';
 
 
-const HomeScreen = () => {
+const ProfileScreen = () => {
 
     const handleSignOut = () => {
         signOut(auth)
@@ -19,13 +19,13 @@ const HomeScreen = () => {
       )}
 
     return(
-        <ImageBackground source={require('../assets/Home1Background.jpg')} style={styles.backgroundImage} resizeMode="cover">        
+        <ImageBackground source={require('../../assets/Home1Background.jpg')} style={styles.backgroundImage} resizeMode="cover">        
             <View >
-                <Text>Echo</Text>
+                <Text>Profile Page</Text>
                 <Button title="SignOut" onPress={handleSignOut}></Button>
             </View>
         </ImageBackground>
     );
 }
 
-export default HomeScreen;
+export default ProfileScreen;
