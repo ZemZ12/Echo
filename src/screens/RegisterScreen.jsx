@@ -1,10 +1,12 @@
 import {useState} from 'react';
 import { View, TextInput, TouchableOpacity, Text, Image, ImageBackground, SafeAreaView,ScrollView,KeyboardAvoidingView,Platform} from 'react-native';
 import styles from '../styles/registerscreenstyles';
-import {createUserWithEmailAndPassword,sendEmailVerification} from "firebase/auth";
+import {createUserWithEmailAndPassword,sendEmailVerification ,updateProfile} from "firebase/auth";
 import {auth ,db } from '../services/firebase';
 import { collection ,setDoc,doc ,getDocs} from "firebase/firestore"; 
 import LoadingAnimation  from '../components/loading';
+import { onAuthStateChanged,  } from '@react-native-firebase/auth';
+
 
  function RegisterScreen() {
   // useStates Inputs
@@ -157,41 +159,72 @@ import LoadingAnimation  from '../components/loading';
       return;
     }
     setLoading(true);
-    setTimeout(async () => {
+    
       try {
+        const snapshot = await getDocs(collection(db, 'users'));
+        const userNameExists = snapshot.docs.some(doc => doc.data().username === username);
+
+        if (userNameExists) {
+          setErrorMessage("This username is already taken. Please choose a different one.");
+          setHideErrorMessage(false);
+          setTimeout(() => {
+            setHideErrorMessage(true);
+            setErrorMessage('');
+          }, 4000);
+          setLoading(false);
+          
+          return;
+        }
+
       // Create a new user with email and password
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
+
+      // Update user profile with username
+      try {
+        onAuthStateChanged(auth, async (user) => {
+          if(auth.currentUser){
+            await updateProfile(auth.currentUser, {
+              displayName: username,
+            });
+            console.log("Profile updated successfully:", user.displayName);
+          }
+          
+        });
+      }catch (updateError) {
+        console.error("Failed to update profile:", updateError);
+      }
       
       // Store user data in Firestore
       await setDoc(doc(db, 'users', user.uid), {
-        username: username,
+        displayName: user.displayName, // Should now contain the username
         dob: `${month}/${day}/${year}`,
         email: user.email,
       });
-
-      const snapshot = await getDocs(collection(db, 'users'));
+         
       snapshot.forEach((doc) => {
       console.log(doc.id, '=>', doc.data());
     });
       console.log("User data stored successfully!");
       // Store user data in Firestore
 
-      // Send email verification
-      await sendEmailVerification(user);
-      setSuccessMessage("Registration Successful!, Verification email sent!")
-      resetPasswordInputs();
-      resetInputs();
-      setLoading(false);
-      // Send email verification
+    // Send email verification   
+        await sendEmailVerification(user); 
+        setSuccessMessage("Registration Successful!, Verification email sent!");
+        resetPasswordInputs();
+        resetInputs();
+        setLoading(false);
+        
+        
+    // Send email verification
+      
     } catch (error) {
       handleError(error);
       resetInputs();
       setLoading(false);
+      
     }
-  })
     
-
   }  
   return (
     
