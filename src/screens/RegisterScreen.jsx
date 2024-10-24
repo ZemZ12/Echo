@@ -189,7 +189,6 @@ import { onAuthStateChanged,  } from '@react-native-firebase/auth';
             });
             console.log("Profile updated successfully:", user.displayName);
           }
-          
         });
       }catch (updateError) {
         console.error("Failed to update profile:", updateError);
@@ -197,7 +196,7 @@ import { onAuthStateChanged,  } from '@react-native-firebase/auth';
       
       // Store user data in Firestore
       await setDoc(doc(db, 'users', user.uid), {
-        displayName: user.displayName, // Should now contain the username
+        displayName: user.displayName, //contain the username
         dob: `${month}/${day}/${year}`,
         email: user.email,
       });

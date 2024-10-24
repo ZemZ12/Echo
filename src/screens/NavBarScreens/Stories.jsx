@@ -6,16 +6,16 @@ import { auth} from '../../services/firebase';
 import { signOut } from 'firebase/auth';
 
 
-const CameraScreen = () => {
+const StoriesScreen = () => {
 
 
     return(
         <ImageBackground source={require('../../assets/Home1Background.jpg')} style={styles.backgroundImage} resizeMode="cover">        
             <View >
-                <Text>CameraPage</Text>
+                <Text>StoriesPage</Text>
             </View>
         </ImageBackground>
     );
 }
 
-export default CameraScreen;
+export default StoriesScreen;
