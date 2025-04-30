@@ -4,6 +4,7 @@ import ProfileScreen from '../screens/NavBarScreens/Profile';
 import CallsScreen from '../screens/NavBarScreens/Calls';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import StoriesScreen from './NavBarScreens/Stories';
 
@@ -39,4 +40,6 @@ const NavTabs = () => {
 
 
   export default NavTabs;
+
+
 
